@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post - Matt Lassaline</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1><a href="/">Matt Lassaline</a></h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/blog.html">Blog</a>
+    </nav>
+  </header>
+
+  <a href="/blog.html" class="back-link">&larr; Back to all posts</a>
+  <article class="post-content" id="post-content">
+    <p>Loading...</p>
+  </article>
+
+  <footer>&copy; 2026 Matt Lassaline</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('slug');
+
+    if (slug) {
+      fetch(`posts/${slug}.md`)
+        .then(res => {
+          if (!res.ok) throw new Error('Post not found');
+          return res.text();
+        })
+        .then(md => {
+          document.getElementById('post-content').innerHTML = marked.parse(md);
+          const h1 = document.querySelector('.post-content h1');
+          if (h1) document.title = h1.textContent + ' - Matt Lassaline';
+        })
+        .catch(() => {
+          document.getElementById('post-content').innerHTML = '<p>Post not found.</p>';
+        });
+    }
+  </script>
+</body>
+</html>

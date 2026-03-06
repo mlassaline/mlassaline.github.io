@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matt Lassaline</title>
+  <title>Blog - Matt Lassaline</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,33 +15,26 @@
     </nav>
   </header>
 
-  <section class="bio">
-    <p>Software developer and people leader with over 10 years of experience in infrastructure and automation. I enjoy building things that make teams and systems work better.</p>
-  </section>
-
-  <section>
-    <h2>Latest Post</h2>
-    <ul class="post-list" id="latest-post">
-      <li>Loading...</li>
-    </ul>
-  </section>
+  <h2>All Posts</h2>
+  <ul class="post-list" id="post-list">
+    <li>Loading...</li>
+  </ul>
 
   <footer>&copy; 2026 Matt Lassaline</footer>
 
   <script src="blog.js"></script>
   <script>
     loadPosts().then(posts => {
-      const container = document.getElementById('latest-post');
+      const container = document.getElementById('post-list');
       if (posts.length === 0) {
         container.innerHTML = '<li>No posts yet.</li>';
         return;
       }
-      const post = posts[0];
-      container.innerHTML = `<li>
+      container.innerHTML = posts.map(post => `<li>
         <a href="post.html?slug=${post.slug}">${post.title}</a>
         <span class="post-date">${post.date}</span>
         <p class="post-summary">${post.summary}</p>
-      </li>`;
+      </li>`).join('');
     });
   </script>
 </body>
